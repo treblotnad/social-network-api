@@ -34,7 +34,7 @@ module.exports = {
         { _id: req.body.userId },
         { $addToSet: { thoughts: thought._id } },
         { runValidators: true, new: true }
-      );
+      ).populate("thoughts");
       res.json(user);
     } catch (err) {
       console.log(err);
