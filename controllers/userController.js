@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongoose").Types;
+// const { ObjectId } = require("mongoose").Types;
 const { User, Thought } = require("../models");
 
 // Aggregate function to get the number of students overall
@@ -28,7 +28,7 @@ module.exports = {
   // Get all users
   async getUsers(req, res) {
     try {
-      const users = await User.find().populate("friends");
+      const users = await User.find().populate("friends").populate("thoughts");
 
       // const studentObj = {
       //   students,
@@ -77,18 +77,13 @@ module.exports = {
       if (!user) {
         return res.status(404).json({ message: "No user with that ID exists" });
       }
+      const thought = await Thought.deleteMany({ userName: user.userName });
 
-      // const course = await Course.findOneAndUpdate(
-      //   { students: req.params.studentId },
-      //   { $pull: { students: req.params.studentId } },
-      //   { new: true }
-      // );
-
-      // if (!course) {
-      //   return res.status(404).json({
-      //     message: "Student deleted, but no courses found",
-      //   });
-      // }
+      if (!thought) {
+        return res.json({
+          message: "User deleted, but no thoughts found",
+        });
+      }
 
       res.json({ message: "User successfully deleted" });
     } catch (err) {
@@ -136,10 +131,11 @@ module.exports = {
   // Remove assignment from a student
   async deleteFriend(req, res) {
     try {
+      console.log(req.params);
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friend: { friendId: req.params.friendId } } },
-        { runValidators: true, new: true }
+        { $pull: { friends: req.params.friendId } },
+        { new: true }
       );
 
       if (!user) {
