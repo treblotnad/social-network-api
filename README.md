@@ -23,7 +23,8 @@ Clone the repo, use 'npm i' and start with node server.js. Requires expressJS, a
 ## Usage
 
 Please see video!
-https://drive.google.com/file/d/13awp3YlEViklVQYtn3M1wDP7ah6s0bbq/view?usp=drive_link
+https://drive.google.com/file/d/1uNo3UBAn9-nDPs9u4xvJSKPfVt1Trm05/view?usp=sharing
+
 
 ## Credits
 
